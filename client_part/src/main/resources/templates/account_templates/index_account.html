@@ -1,0 +1,398 @@
+<!DOCTYPE HTML>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="referrer" content="no-referrer">
+	<title>我的账户</title>
+	<!--[if lt IE 9]>
+		<script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<script src="account_source/Javascript/Flot/excanvas.js"></script>
+	<![endif]-->
+	<!-- The Fonts -->
+	<link href="http://fonts.useso.com/css?family=Oswald|Droid+Sans:400,700" rel="stylesheet" />
+	<!-- The Main CSS File -->
+	<link rel="stylesheet" href="account_source/CSS/style.css" />
+	<!-- jQuery -->
+	<script src="account_source/Javascript/jQuery/jquery-1.7.2.min.js"></script>
+	<!-- Flot -->
+	<script src="account_source/Javascript/Flot/jquery.flot.js"></script>
+	<script src="account_source/Javascript/Flot/jquery.flot.resize.js"></script>
+	<script src="account_source/Javascript/Flot/jquery.flot.pie.js"></script>
+	<!-- DataTables -->
+	<script src="account_source/Javascript/DataTables/jquery.dataTables.min.js"></script>
+	<!-- ColResizable -->
+	<script src="account_source/Javascript/ColResizable/colResizable-1.3.js"></script>
+	<!-- jQuryUI -->
+	<script src="account_source/Javascript/jQueryUI/jquery-ui-1.8.21.min.js"></script>
+	<!-- Uniform -->
+	<script src="account_source/Javascript/Uniform/jquery.uniform.js"></script>
+	<!-- Tipsy -->
+	<script src="account_source/Javascript/Tipsy/jquery.tipsy.js"></script>
+	<!-- Elastic -->
+	<script src="account_source/Javascript/Elastic/jquery.elastic.js"></script>
+	<!-- ColorPicker -->
+	<script src="account_source/Javascript/ColorPicker/colorpicker.js"></script>
+	<!-- SuperTextarea -->
+	<script src="account_source/Javascript/SuperTextarea/jquery.supertextarea.min.js"></script>
+	<!-- UISpinner -->
+	<script src="account_source/Javascript/UISpinner/ui.spinner.js"></script>
+	<!-- MaskedInput -->
+	<script src="account_source/Javascript/MaskedInput/jquery.maskedinput-1.3.js"></script>
+	<!-- ClEditor -->
+	<script src="account_source/Javascript/ClEditor/jquery.cleditor.js"></script>
+	<!-- Full Calendar -->
+	<script src="account_source/Javascript/FullCalendar/fullcalendar.js"></script>
+	<!-- Color Box -->
+	<script src="account_source/Javascript/ColorBox/jquery.colorbox.js"></script>
+	<!-- Kanrisha Script -->
+	<script src="account_source/Javascript/kanrisha.js"></script>
+
+	<!--<link rel="stylesheet" href="moban_source1/css/normalize.css">
+	<link rel="stylesheet" href="moban_source1/css/font-awesome.css">
+	<link rel="stylesheet" href="moban_source1/css/bootstrap.min.css">-->
+	<!--<link rel="stylesheet" href="moban_source1/css/templatemo-style.css">-->
+	<!--<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">-->
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+<body>
+	<!-- Change Pattern -->
+	<!--<div class="changePattern">
+		<span id="pattern1"></span>
+		<span id="pattern2"></span>
+		<span id="pattern3"></span>
+		<span id="pattern4"></span>
+		<span id="pattern5"></span>
+		<span id="pattern6"></span>
+	</div>-->
+	<!-- Top Panel -->
+	<div class="top_panel">
+		<div class="wrapper">
+			<div class="user">
+				<img src="account_source/Images/user_avatar.png" alt="user_avatar" class="user_avatar" />
+				<span class="label"><a class="accountName" th:text="${#request.getSession().getAttribute('token')}" href="/index" ></a></span>
+			</div>
+			<div class="top_links">
+			</div>
+		</div>
+	</div>
+	<div class="copyrights">Collect from <a href="https://www.webmoban.net" >企业网站模板</a></div>
+	<header class="main_header">
+		<div class="wrapper">
+			<!--<div class="logo">
+				<a href="#" title="Kanrisha Home">
+					<img src="account_source/Images/kanrisha_logo.png" alt="kanrisha_logo" />
+				</a>
+			</div>-->
+			<nav class="top_buttons">
+				<ul>
+					<li class="big_button">
+						<div class="big_count">
+							<span>0</span>
+						</div>
+						<div class="out_border">
+							<div class="button_wrapper">
+								<div class="in_border">
+									<a href="#" title="Support" class="the_button">
+										<span class="i_32_support"></span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</li>
+
+
+
+					
+				</ul>
+			</nav>
+		</div>
+	</header>
+
+	<!--<div class="wrapper small_menu">
+		<ul class="menu_small_buttons">
+			<li><a title="General Info" class="i_22_dashboard smActive" href="#"></a></li>
+			<li><a title="Your Messages" class="i_22_inbox" href="#"></a></li>
+			<li><a title="Visual Data" class="i_22_charts" href="#"></a></li>
+			<li><a title="Kit elements" class="i_22_ui" href="#"></a></li>
+			<li><a title="Some Rows" class="i_22_tables" href="#"></a></li>
+			<li><a title="Some Fields" class="i_22_forms" href="#"></a></li>
+		</ul>
+	</div>-->
+
+	<div class="wrapper contents_wrapper">
+
+		<div class="contents">
+			<div class="grid_wrapper">
+				<!-- Charts -->
+				<div class="g_12">
+					<div class="widget_header">
+						<!--<h4 class="widget_header_title wwIcon">已完成订单</h4>-->
+						<h4 class="widget_header_title wwIcon">当前绑定的账户</h4>
+					</div>
+					<div class="widget_contents">
+						<div>
+							<table class="tables">
+								<tr><td>卡号</td><td>银行</td><td>余额</td></tr>
+								<tr >
+									<td th:if="${account!=null}" th:text="${account.getCardId()}"></td>
+									<td th:if="${account!=null}" th:text="${account.getBank()}"></td>
+									<td th:if="${account!=null}" th:text="${account.getRemainder()}"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+
+				</div>
+				<button style="width: 30px;height: 30px" type="button" class="btn btn-default" aria-label="Left Align">
+					<span class="glyphicon glyphicon-plus" onclick="show()" style="text-align: center;font-size: 20px">+</span>
+				</button>
+				<div class="cardNum" style="display: none">
+
+					<span class="input-group" >
+						<span class="input-group-addon">银行卡号</span>
+						<input type="text" maxlength="19" minlength="16" class="form-control cardId">
+					</span>
+					<span>
+							<button onclick="addAccount()">添加账户</button>
+					</span>
+				</div>
+
+				<!-- Separator -->
+				<div class="g_12 separator"><span></span></div>
+
+
+				<div class="g_6 contents_header">
+					<h3 class="i_16_dashboard tab_label">主要信息</h3>
+					<div><span class="label">账户信息、账单......</span></div>
+				</div>
+
+				<div class="g_12 separator"><span></span></div>
+				
+				<!-- Quick Statistics -->
+				<div class="g_3 quick_stats">
+					<div th:text="${left}" class="big_stats visitor_stats">
+
+					</div>
+					<h5 class="stats_info">账户余额</h5>
+				</div>
+				<div class="g_3 quick_stats">
+					<div th:text="${order.size()}" class="big_stats tickets_stats">
+					</div>
+					<h5 class="stats_info">总交易次数</h5>
+				</div>
+
+				<div class="g_12 separator under_stat"><span></span></div>
+
+				<!-- Charts -->
+				<div class="g_12">
+					<div class="widget_header">
+						<!--<h4 class="widget_header_title wwIcon">已完成订单</h4>-->
+						<h4 class="widget_header_title wwIcon">已完成订单</h4>
+					</div>
+					<div class="widget_contents">
+						<div>
+							<table class="tables">
+								<tr><td>支付店铺</td><td>支付时间</td><td>支付金额</td><td>保存时限</td><td>物品信息</td></tr>
+								<tr th:each="o:${order}" th:if="${o.getPay()==1}">
+									<td th:text="${o.getStoreName()}"></td>
+									<td th:text="${o.getDate()}"></td>
+									<td th:text="${o.getMoney()}"></td>
+									<td th:text="${o.getSaveTime()}"></td>
+									<td th:text="${o.getThing()}"></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+				<!-- Separator -->
+				<div class="g_12 separator"><span></span></div>
+				<!-- Chats -->
+
+				<!-- Pie Charts -->
+				<div class="g_12">
+					<div class="widget_header">
+						<h4 class="widget_header_title wwIcon">未完成订单</h4>
+					</div>
+					<div class="widget_contents">
+						<div>
+							<table class="tables">
+								<tr><td>下单店铺</td><td>创建时间</td><td>待付金额</td><td>保存时限</td><td>物品信息</td><td></td><td></td></tr>
+								<tr th:each="o:${order}" th:if="${o.getPay()==0}">
+									<td class="order_id" th:text="${o.getId()}" style="display: none"></td>
+									<td class="shopName" th:text="${o.getStoreName()}"></td>
+									<td th:text="${o.getDate()}"></td>
+									<td class="payMoney" th:text="${o.getMoney()}"></td>
+									<td th:text="${o.getSaveTime()}"></td>
+									<td th:text="${o.getThing()}"></td>
+									<td><a href="#" onclick="deleteOrder()">取消订单</a></td>
+									<td><button onclick="pay()">确认支付</button></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<!-- Separator -->
+				<div class="g_12 separator"><span></span></div>
+				<!-- Calendar -->
+
+				<!--模态框-->
+				<div style="z-index: 99999999" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div style="padding: 100px 100px 10px;">
+								<form class="bs-example bs-example-form" role="form">
+									<div class="input-group">
+										<img style="width: 100%;height: 100%" src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3079214921,2485982572&fm=26&gp=0.jpg">
+										<input onclick="change(this)" style="margin-right: 33%" type="checkbox" class="title-over">
+										<input onclick="change(this)" style="margin-right: 33%" type="checkbox" class="title-over">
+										<input onclick="change(this)" type="checkbox"  class="title-over">
+									</div>
+									<br>
+								</form>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal -->
+				</div>
+
+
+			</div>
+		</div>
+
+	</div>
+
+	<footer>
+		<div class="wrapper">
+			<span class="copyright">
+				&copy; Copyright &copy; 2013.Company name All rights reserved. More Templates <a href="https://www.webmoban.net" target="_blank" title="网站模板">网站模板</a> - Collect from <a href="https://www.webmoban.net" title="网页模板" target="_blank">网页模板</a>
+			</span>
+		</div>
+	</footer>
+<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
+<script>
+	function show(){
+		$(".cardNum").css("display",'block');
+	}
+
+	function addAccount() {
+		let accountName = $(".accountName").text();
+		let cardId = $(".cardId").val();
+		let sendMsg = {
+			"name":accountName,
+			"remainder":100,
+			"cardId":cardId,
+			"bank":"中国银行"
+		}
+
+		$.ajax({
+			type:"POST",
+			url:"/insertAccount",
+			data:JSON.stringify(sendMsg),
+			contentType:"application/json",
+			dataType:"text",
+			success:function (data) {
+				if(data==="ok"){
+					$(".cardNum").css("display",'none');
+
+				}else {
+					alert("添加账户失败")
+				}
+			},error:function () {
+
+			}
+		})
+
+	}
+
+	function pay() {
+		let count = 0;
+		let inputElem = $("input");
+		for(let i =0;i<inputElem.length;i++){
+			if(inputElem[i].checked==false){
+				count++;
+			}
+		}
+
+		if(count==inputElem.length){
+			alert("请选择支付方式");
+			return;
+		}
+
+
+		//对应的是订单的提交，同时也支付了相应的费用，对应的是对库存的减少
+
+		let accountName = $(".accountName").text();
+		let money = $(".payMoney").text();
+		let shopName = $(".shopName").text();
+		let order_id = $(".order_id").text();
+
+		let sendMsg = {
+			"accountName":accountName,
+			"money":money ,
+			"order_index":order_id,
+			"shopName":shopName
+		}
+
+
+		$.ajax({
+			type:"POST",
+			url:"/updateAccount",
+			data:JSON.stringify(sendMsg),
+			contentType:"application/json",
+			dataType:"text",
+			success:function (data) {
+				if(data==="ok"){
+					alert("支付成功！！");
+					location.href="/accountPage";
+				}else if (data==="none")
+				{
+					alert("去添加相应的账户！！")
+				}
+					else {
+					alert("余额不足！！");
+				}
+			},error:function () {
+
+			}
+		})
+
+
+	}
+
+
+
+
+
+	function change(obj){
+		let inputElem = $("input");
+		for(let i =0;i<inputElem.length;i++){
+			inputElem[i].checked=false;
+		}
+		obj.checked = true;
+	}
+	
+	function deleteOrder() {
+
+		let order_id = $(".order_id").text();
+		$.ajax({
+			url:"/deleteOrder?id="+order_id,
+			type:"GET",
+			dataType:"text",
+			success:function (data) {
+				location.href="/accountPage";
+			},
+			error:function () {
+
+			}
+
+
+		})
+	}
+
+</script>
+
+</body>
+</html>

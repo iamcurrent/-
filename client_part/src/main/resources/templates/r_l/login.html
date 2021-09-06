@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="register_login/css/bootstrap.css" />
+		<link rel="stylesheet" href="register_login/css/login.css" />
+		<link rel="stylesheet" href="register_login/css/footer&cbl.css" />
+		<link rel="stylesheet" href="register_login/css/daohang.css" />
+		<script type="text/javascript" src="register_login/js/jquery-1.11.3.js" ></script>
+		<script type="text/javascript" src="register_login/js/bootstrap.js" ></script>
+		<script type="text/javascript" src="register_login/js/templet.js" ></script>
+		<script type="text/javascript" src="register_login/js/hp.js" ></script>
+		<title></title>
+	</head>
+	<body>
+		<div class="video">
+			<video autoplay="autoplay" muted="muted" loop="loop">
+				<source type="video/mp4" src="register_login/video/back_video2.mp4"></source>
+			</video>
+		</div>
+
+		<div id="main">
+			<div class="main">	
+			<div class="container">
+				<div class="c2">
+					<a href=""></a><span>
+						<img src="register_login/img/qifeiye.png" />
+					</span></a>
+					<p style="color: #2b669a">从这里开启建站之旅</p>
+				</div>
+				<div class="c3">
+					<!--<form action="#">-->
+						<div class="form-group" >
+    						<label for="usernameoremail" style="color: #2b669a">用户名或邮箱</label>
+    						<input type="text" class="form-control" style="color: #66EE66" name="usernameoremail" id="usernameoremail">
+  						</div>
+  						<div class="form-group">
+    						<label for="password" style="color: #2b669a">密码</label>
+    						<input type="password" tyle="color: #66EE66" class="form-control" name="password" id="password">
+  						</div>
+  						<div class="checkbox">
+    						<label>
+     		 					<input type="checkbox" style="background-color: #1b6d85"> 记住我（请在私人计算机上使用此功能）
+    						</label>
+  						</div>
+  						<div class="c3-1">
+							<span class="pp fail"  style="display: none;color: #0BC20B">登录失败，请做其他尝试</span>
+							<button id="denglu" onclick="login()" class="btn btn-default btn1" style="color: #2b669a">登录</button>
+							<a href="/register_page" type="button" class="btn btn-default btn2" style="color: #2b669a">注册</a>
+						</div>
+						<div class="c3-2 clearfix">
+							<span class="c3-2-2">其他账号登录：</span>
+							<div class="c3-2-1">
+								<a href="" title="使用腾讯QQ登录"><span class="s1"></span></a>
+								<a href="" title="使用微信登录"><span class="s2"></span></a>
+								<a href="" title="使用谷歌登录"><span class="s3"></span></a>
+								<a href="" title="使用脸书登录"><span class="s4"></span></a>
+							</div>
+						</div>
+						<div class="c3-3 clearfix">
+							<a href="" class="pull-right">忘记密码？点这里找回</a>
+						</div>
+					<!--</form>-->
+				</div>
+			</div>
+		</div>
+		<ul class="cbl" >
+			<li><a href="#">
+				<div class="icon d1"><i class="i1"></i><span class="title">在线客服</span></div>
+			</a></li>
+			<i class="clearfix"></i>
+			<li><a href="#">
+				<div class="icon d2"><i class="i2"></i><span class="title">4006285729</span></div>
+			</a></li>
+			<i class="clearfix"></i>
+			<li><a  href="#">
+				<div class="icon"><i class="i3"></i><span class="title">教程中心</span></div>
+			</a></li>
+			<i class="clearfix"></i>
+			<li ><a  href="#">
+				<div class="icon d4" data-toggle="tooltip" data-placement = "left" title="<img src='img/erweima.png'><br/> 关注微信 " data-html="true"><i class="i4"></i></div>
+			</a></li>
+		</ul>
+		</div>
+
+
+	<script type="text/javascript">
+		function login() {
+			let username = $("#usernameoremail").val();
+			let password = $("#password").val();
+			let t = {
+				"username":username,
+				"password":password
+			}
+
+			$.ajax({
+				url:"/to_login_server",
+				type:"POST",
+				data:JSON.stringify(t),
+				contentType:"application/json",
+				dataType:"text",
+				success:function (data) {
+					if(data==="ok"){
+						location.href="/index";
+					}else {
+						$(".fail").css("display",'block');
+						return;
+						//alert("no way");
+					}
+				},error:function () {
+					alert("dsads");
+					/*alert("数据无法解析");*/
+				}
+			});
+		}
+
+	</script>
+	</body>
+</html>

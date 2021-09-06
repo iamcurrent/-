@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>轮播图</title>
+    <meta name="referrer" content="no-referrer">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="moban_source1/css/normalize.css">
+    <link rel="stylesheet" href="moban_source1/css/font-awesome.css">
+    <link rel="stylesheet" href="moban_source1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="moban_source1/css/templatemo-style.css">
+    <script type="text/javascript" src="https://cdn.staticfile.org/echarts/4.7.0/echarts.min.js"></script>
+    <style>
+        .carousel {
+            width: 525px;
+            height: 210px;
+        }
+
+        .text_color{
+            color: #0f0f0f;
+        }
+
+
+        img {
+            width: 525px;
+            height: 210px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+<!-- SITE TOP -->
+<div class="site-top" style="background-color: #0f0f0f">
+    <div class="site-header clearfix">
+        <div class="container">
+            <a href="#" class="site-brand pull-left"><strong class="userName" th:text="${#request.getSession().getAttribute('token')}"></strong> MEMORY</a>
+            <ul class="nav nav-tabs nav-justified">
+                <li role="presentation"><a href="/getAllShop">线下</a></li>
+                <li role="presentation"><a href="#">关于</a></li>
+            </ul>
+        </div>
+    </div> <!-- .site-header -->
+</div> <!-- .site-top -->
+
+<div class="content" style="margin-top: 20px">
+    <div class="wrap">
+        <div  id="main" role="main" style="background-color: #0BC20B">
+            <ul id="tiles" style="float: left;width: 33%">
+                <!-- These are our grid blocks -->
+                <li th:each="image:${shop_images}">
+
+                    <img th:src="${image}" style="margin-top: 10px">
+
+                </li>
+                <!-- End of grid blocks -->
+            </ul>
+            <div style="float: left;width: 33%">
+                <div class="post-info">
+                         <div class="post-basic-info">
+                             <p style="color: red">店铺信息</p>
+                             <div class="input-group">
+                                 <h4><span >店铺名称:</span></h4>
+                                 <span class="shopName" th:text="${shop.getStoreName()}"></span>
+                             </div>
+
+                                 <div class="input-group">
+                                     <h4><span >店铺描述:</span></h4>
+                                     <p th:text="${shop.getDescription()}"></p>
+                                 </div>
+
+
+                                 <div class="input-group">
+                                     <h4><span >店铺评分:</span></h4>
+                                     <p th:text="${shop.getScore()}"></p>
+                                 </div>
+
+
+                                 <div class="input-group">
+                                     <h4><span >店铺地址</span></h4>
+                                     <p th:text="${shop.getAddress()}"></p>
+                                 </div>
+
+
+                                 <div class="input-group">
+                                     <h4><span >店铺联系方式:</span></h4>
+                                     <p th:text="${shop.getTel()}"></p>
+                                 </div>
+
+
+                                 <div class="input-group">
+                                     <h4><span >店铺访问次数：</span></h4>
+                                     <p th:text="${shop.getVisitNum()}"></p>
+                                 </div>
+
+
+                                 <div class="input-group">
+                                     <h4><span >店铺月访问量：</span></h4>
+                                     <div id="monthVisit" style="width: 400px;height:200px;"></div>
+                                     <p class="visitData" style="display: none" th:text="${visitMonth}"></p>
+                                 </div>
+
+                                 <div class="input-group">
+                                     <h4><span >店铺剩余存储量：</span></h4>
+                                     <p th:text="${shop.getLeftContain()}"></p>
+                                 </div>
+
+
+                         </div>
+
+                </div>
+            </div>
+            <div style="float:left;width: 33%">
+                <h3><div style="color: red">订单预约</div></h3>
+               <!-- <div style="padding: 100px 100px 10px;">-->
+
+
+                        <div class="input-group">
+                            <span class="input-group-addon ">电话</span>
+                            <input type="text" class="form-control  tel">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon ">时间</span>
+                            <input type="datetime-local" class="form-control  subTime">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon ">金额</span>
+                            <input type="number" class="form-control  money">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon ">保存时限</span>
+                            <input type="number" class="form-control  savTime">
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon">保存的物品</span>
+                            <input type="text" class="form-control thing">
+                        </div>
+                        <br>
+
+                        <div class="input-group">
+                           <!-- class="input-group-addon btn btn-lg" data-toggle="modal" data-target="#myModal"-->
+                            <span class="input-group-addon btn btn-lg" data-toggle="modal" data-target="#myModal" onclick="submitOrder()">提交订单</span>
+                        </div>
+
+                        <br>
+
+
+                <!-- 模态框（Modal） -->
+                <div style="z-index: 99999999" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div style="padding: 100px 100px 10px;">
+                                <form class="bs-example bs-example-form" role="form">
+                                    <div class="input-group">
+                                        <img style="width: 100%;height: 100%" src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3079214921,2485982572&fm=26&gp=0.jpg">
+                                        <input style="margin-right: 33%" type="checkbox" checked="checked" class="title-over">
+                                        <input style="margin-right: 33%" type="checkbox"  class="title-over">
+                                        <input type="checkbox"  class="title-over">
+                                    </div>
+                                    <br>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="button" onclick="pay(1)" class="btn btn-primary">确认支付</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+    <script>
+
+        let visitData = $(".visitData").text();
+        var split = visitData.split(',');
+        var arr = [];
+        split[0] = split[0].substring(1,split[0].length);
+        split[11] = split[11].substring(0,split[11].length-1);
+        for(var i =0;i<split.length;i++){
+            arr.push(parseInt(split[i]));
+        }
+
+        var option = {
+
+            tooltip : {/*鼠标跟随效果*/
+                trigger: 'axis'
+            },
+
+            legend: { /*中间的小图标*/
+                data:['最高气温','最低气温']
+            },
+
+            xAxis : [
+                {
+                    type : 'category',
+
+                    data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'],
+                    show:true,
+                    splitLine:{
+                        show:true,
+                    }
+                }
+            ],
+
+            yAxis : [
+                {
+                    type : 'value',
+                    name: '访问量',
+
+                    splitLine:{ /*网格线的设置*/
+                        show:true,
+                    },
+                    axisLine:{/*坐标轴，轴线的设置*/
+                        lineStyle:{
+                            color:"red",
+                        }
+                    },
+                    axisTick:{ /*坐标轴刻度的设置*/
+                        lineStyle:{
+                            color:"blue",
+                        }
+                    },
+
+
+
+                },
+
+
+            ],
+
+            //数据
+            series : [
+                {
+                    name:'访问次数',/*数据的名称*/
+                    type:'line', /*这个数据的类型，画折线*/
+                    data:arr,
+                    yAxisIndex:0, /*与上面y轴的数组中，第一组数据对应*/
+                }
+            ]
+        };
+        let myChart1 = echarts.init(document.getElementById("monthVisit"));
+        myChart1.setOption(option);
+
+        var order_index = 0;
+        function pay(obj) {
+            //对应的是订单的提交，同时也支付了相应的费用，对应的是对库存的减少
+            let accountName = $(".userName").text();
+            let money = $(".money").val();
+            let shopName = $(".shopName").text();
+            let sendMsg = {
+                "accountName":accountName,
+                "money":money ,
+                "order_index":order_idnex,
+                "shopName":shopName
+            }
+
+            $.ajax({
+                type:"POST",
+                url:"/updateAccount",
+                data:JSON.stringify(sendMsg),
+                contentType:"application/json",
+                dataType:"text",
+                success:function (data) {
+                    if(data==="ok"){
+                        alert("支付成功！！");
+                        location.href="/details";
+                    }else {
+                        alert("余额不足！！");
+                        location.href="/details";
+                    }
+                },error:function () {
+
+                }
+            })
+
+
+        }
+
+        //对应的是提交订单，但是没有进行支付，这个订单具有失效时间
+        function submitOrder() {
+            let accountName = $(".userName").text();
+            let tel = $(".tel").val();
+            let date = $(".subTime").val();
+            let money = $(".money").val();
+            let savTime = $(".savTime").val();
+            let storeName = $(".shopName").text();
+            let thing = $(".thing").val();
+            let sendDate = {
+                "accountName":accountName,
+                "tel":tel,
+                "date":date,
+                "money":money,
+                "savTime":savTime,
+                "storeName":storeName,
+                "thing":thing
+            }
+            $.ajax({
+                type:"POST",
+                url:"/submitOrder",
+                data:JSON.stringify(sendDate),
+                contentType:"application/json",
+                dataType:"text",
+                success:function (data) {
+                    order_idnex = data;
+                },error:function () {
+
+                }
+
+            })
+        }
+    </script>
+</html>

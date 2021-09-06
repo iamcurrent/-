@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" xmlns:th="http://www.thymeleaf.org"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" xmlns:th="http://www.thymeleaf.org"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" xmlns:th="http://www.thymeleaf.org"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" xmlns:th="http://www.thymeleaf.org"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>我的主页</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="referrer" content="no-referrer">
+        <link rel="stylesheet" href="moban_source1/css/normalize.css">
+        <link rel="stylesheet" href="moban_source1/css/font-awesome.css">
+        <link rel="stylesheet" href="moban_source1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="moban_source1/css/templatemo-style.css">
+        <script src="moban_source1/js/vendor/modernizr-2.6.2.min.js"></script>
+
+
+        <!--<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">-->
+        <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        
+        <div id="loader-wrapper">
+            <div id="loader"></div>
+        </div>
+
+        <div class="content-bg"></div>
+        <div class="bg-overlay"></div>
+
+        <!-- SITE TOP -->
+        <div class="site-top">
+
+            <div class="site-header clearfix">
+                <div class="container">
+                    <a href="/index" class="site-brand pull-left"><strong th:text="${#request.getSession().getAttribute('token')}"></strong> MEMORY</a>
+                    <ul class="nav nav-tabs nav-justified">
+                        <li role="presentation"><a href="/index">主页</a></li>
+                        <li role="presentation"><a href="#" class="btn btn-lg" data-toggle="modal" data-target="#myModal">上传</a></li>
+                        <li role="presentation"><a href="/getAllShop">线下</a></li>
+                        <li role="presentation"><a href="#">关于</a></li>
+                    </ul>
+                </div>
+            </div> <!-- .site-header -->
+        </div> <!-- .site-top -->
+        <div class="copyrights">Collect from <a href="https://www.webmoban.net"  title="网站模板">网站模板</a></div>
+        <!-- MAIN POSTS -->
+        <div class="main-posts">
+            <div class="container">
+                <div class="row">
+                    <div class="blog-masonry masonry-true">
+
+
+
+                        <div th:each="image:${pri_images}" class="post-masonry col-md-4 col-sm-6">
+                            <div class="post-thumb">
+                                <img th:src="${image.getImage_address()}" alt="">
+                                <div class="title-over">
+                                    <h4 ><a href="#" th:text="${image.getDescription()}"></a></h4>
+                                </div>
+                                <div class="post-hover text-center">
+                                    <div class="inside">
+                                        <i class="fa fa-plus"></i>
+                                        <span class="date" th:text="${image.getDate()}"></span>
+                                        <h4><a href="#" th:text="${image.getOnline_flag()=='n'}?'无线下实物':'有线下实物'"></a></h4>
+                                        <p th:text="${image.getPrivate_flag()=='0'}?'公开':'私有'"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- /.post-masonry -->
+                        <!-- 模态框（Modal） -->
+                        <div style="z-index: 99999999" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div style="padding: 100px 100px 10px;">
+                                        <form class="bs-example bs-example-form" role="form">
+                                            <div class="input-group">
+                                                <!--<span class="input-group-addon">图片地址</span>
+                                                <input type="text" class="form-control img_address" placeholder="https://XXXXXX">-->
+                                                <div class="col-md-9">
+                                                    <div class="input-group">
+                                                        <input id="photoCover" class="form-control" readonly type="text">
+                                                        <label class="input-group-btn">
+                                                            <input id="file" type="file" name="file" style="left: -9999px; position: absolute;">
+                                                            <span class="btn btn-default">Browse</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <img id="ig" src="" width="100px" height="100px">
+                                                </div>
+                                            </div>
+                                            <br>
+
+                                            <div class="input-group">
+                                                <span class="input-group-addon">图片描述</span>
+                                                <input type="text" class="form-control img_description" style="height: 50px">
+                                            </div>
+                                            <br>
+
+                                            <!--<div class="input-group">
+                                                <span class="input-group-addon">发布时间</span>
+                                                <input type="datetime-local" class="form-control publish_date" placeholder="now()">
+                                            </div>
+                                            <br>-->
+                                            <div class="input-group">
+                                                <span class="input-group-addon">发布者</span>
+                                                <input disabled="true" type="text" class="form-control owner" th:value="${#request.getSession().getAttribute('token')}">
+                                            </div>
+                                            <br>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">私密上传</span>
+                                                <input class="private_flag" type="checkbox" name="vehicle" value="Car" checked="checked" />
+                                            </div>
+                                            <div class="input-group msg">
+                                                <span class="input-group-addon">提示消息</span>
+                                                <p class="s_msg" style="color: #0f0f0f"></p>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" onclick="saveUser2()" class="btn btn-primary">上传</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <!--<footer class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <div class="social-icons">
+                            <ul>
+                                <li><a href="#" class="fa fa-facebook"></a></li>
+                                <li><a href="#" class="fa fa-twitter"></a></li>
+                                <li><a href="#" class="fa fa-behance"></a></li>
+                                <li><a href="#" class="fa fa-dribbble"></a></li>
+                                <li><a href="#" class="fa fa-google-plus"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <p class="copyright-text">Copyright &copy; 2084 Company Name 
+                    	| More Templates <a href="https://www.webmoban.net" target="_blank" title="网站模板">网站模板</a> - Collect from <a href="https://www.webmoban.net" title="网页模板" target="_blank">网页模板</a></p>
+                    </div>
+                </div>
+            </div>
+        </footer>-->
+
+        <script src="moban_source1/js/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="moban_source1/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="moban_source1/js/min/plugins.min.js"></script>
+        <script src="moban_source1/js/min/main.min.js"></script>
+        <!-- Preloader -->
+        <script type="text/javascript">
+
+            $(function () {
+                $("#file").change(function (e) {
+                    var file = e.target.files[0] || e.dataTransfer.files[0];
+                    $('#photoCover').val(document.getElementById("file").files[0].name);
+                    if (file) {
+                        var reader = new FileReader();
+                        reader.onload = function () {
+                            $("img").attr("src", this.result);
+                        }
+
+                        reader.readAsDataURL(file);
+                    }
+                });
+            })
+
+            //<![CDATA[
+            $(window).load(function() { // makes sure the whole site is loaded
+                $('#loader').fadeOut(); // will first fade out the loading animation
+                    $('#loader-wrapper').delay(350).fadeOut('slow'); // will fade out the white DIV that covers the website.
+                $('body').delay(350).css({'overflow-y':'visible'});
+            })
+            //]]>
+
+            function saveUser2() {
+                var file = document.getElementById("file").files[0]; //图片
+                let img_description = $(".img_description").val(); //图片描述
+               // let img_time = $(".publish_date").val(); //上传时间
+                let img_owner = $(".owner").val(); //上传人
+                let img_private  =$(".private_flag"); //是否私密
+                let flag = false;
+                if(img_private[0].checked){
+                    flag = true;
+                }
+                var formData = new FormData();
+                formData.append("img_description",img_description);
+                //formData.append("img_time",img_time);
+                formData.append("img_owner",img_owner);
+                formData.append("img_private",flag.toString());
+                formData.append('file', file);
+
+                $.ajax({
+                    url: "publish",
+                    type: "post",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    mimeType: "multipart/form-data",
+                    success: function (data) {
+                        if(data==="ok"){
+
+                            $(".s_msg").text("上传成功");
+                        }else {
+
+                            $(".s_msg").text("上传失败");
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            }
+
+            
+            function add_image() {
+
+                let img_address = $(".img_address").val();
+                let img_owner = $(".owner").val();
+                let img_time = $(".publish_date").val();
+                let img_private  =$(".private_flag");
+                let img_description = $(".img_description").val();
+                let flag = 0;
+                if(img_private[0].checked){
+                    flag = 1;
+                }
+
+
+
+                let send_data = {
+                    "owner":img_owner,
+                    "image_address":img_address,
+                    "description":img_description,
+                    "online_flag":"n",
+                    "date":img_time,
+                    "private_flag":flag
+                };
+
+
+                $.ajax({
+                   url:"/publish",
+                   type:"POST",
+                   dataType:"text",
+                    data:JSON.stringify(send_data),
+                    contentType:"application/json",
+                   success:function (data) {
+                        if(data==="ok"){
+
+                            $(".s_msg").text("上传成功");
+                        }else {
+
+                            $(".s_msg").text("上传失败");
+                        }
+                   },error:function () {
+
+                    }
+
+                });
+
+            }
+            
+        </script>
+	<!-- templatemo 434 masonry -->
+    </body>
+</html>

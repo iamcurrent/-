@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.image_server.dao.ImagesDao">
+    <insert id="insertImage" parameterType="com.example.commons.entities.Images" useGeneratedKeys="true">
+        insert into
+         images
+        values(#{owner},#{image_address},#{description},#{entry},#{upload_time},#{private_flag},#{click_number})
+    </insert>
+
+    <select id="getImagesByOwner" parameterType="java.lang.String" resultType="com.example.commons.entities.Images">
+        select * from
+            images
+        where
+            owner = #{owner}
+    </select>
+
+    <select id="getImagesByFlag" parameterType="java.lang.Boolean" resultType="com.example.commons.entities.Images">
+        select *
+        from
+            images
+        where
+            entry=#{entry}
+    </select>
+
+
+
+</mapper>

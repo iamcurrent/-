@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="image_server" />
+        <module name="commons" />
+        <module name="register_login_server02" />
+        <module name="common" />
+        <module name="register_login_server" />
+        <module name="storage_server" />
+        <module name="order_server" />
+        <module name="client_part" />
+        <module name="account-server" />
+        <module name="记忆微格" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="account-server" target="11" />
+      <module name="client_part" target="11" />
+      <module name="common" target="11" />
+      <module name="commons" target="11" />
+      <module name="image_server" target="11" />
+      <module name="order_server" target="11" />
+      <module name="register_login_server" target="11" />
+      <module name="register_login_server02" target="11" />
+      <module name="storage_server" target="11" />
+      <module name="记忆微格" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="account-server" options="-parameters" />
+      <module name="client_part" options="-parameters" />
+      <module name="common" options="-parameters" />
+      <module name="commons" options="-parameters" />
+      <module name="image_server" options="-parameters" />
+      <module name="order_server" options="-parameters" />
+      <module name="register_login_server" options="-parameters" />
+      <module name="register_login_server02" options="-parameters" />
+      <module name="storage_server" options="-parameters" />
+      <module name="记忆微格" options="-parameters" />
+    </option>
+  </component>
+</project>

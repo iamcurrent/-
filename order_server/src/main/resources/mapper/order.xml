@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.order_server.dao.OrderDao">
+    <insert id="insertOrder" parameterType="com.example.commons.entities.Order" useGeneratedKeys="true">
+        insert into
+            order_t
+        values(#{id},#{account},#{tel},#{date},#{money},#{pay},#{submit},#{saveTime},#{storeName},#{thing})
+    </insert>
+
+    <update id="updatePayFlag" parameterType="java.lang.Integer">
+        update
+            order_t
+        set
+            pay = 1
+        where
+            id=#{id}
+    </update>
+
+    <update id="updateSubmitFlag" parameterType="java.lang.Integer">
+        update
+            order_t
+        set
+            submit=1
+        where
+            id=#{id}
+    </update>
+
+    <delete id="deleteOrder" parameterType="java.lang.Integer">
+        delete from
+            order_t
+        where
+            id=#{id}
+    </delete>
+
+    <select id="getOrderByName" parameterType="java.lang.String" resultType="com.example.commons.entities.Order">
+        select
+            *
+        from
+            order_t
+        where
+            account=#{name}
+    </select>
+
+    <select id="getOrderById" parameterType="java.lang.Integer" resultType="com.example.commons.entities.Order">
+        select
+            *
+        from
+            order_t
+        where
+            id=#{id}
+    </select>
+
+    <select id="getNoPayOrderByName" parameterType="java.lang.String" resultType="com.example.commons.entities.Order">
+        select
+            *
+        from
+            order_t
+        where
+            account=#{name}
+        and
+            pay=0
+    </select>
+
+
+</mapper>

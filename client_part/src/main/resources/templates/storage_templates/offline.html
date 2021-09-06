@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>线下实体</title>
+    <meta name="referrer" content="no-referrer">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="moban_source1/css/normalize.css">
+    <link rel="stylesheet" href="moban_source1/css/font-awesome.css">
+    <link rel="stylesheet" href="moban_source1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="moban_source1/css/templatemo-style.css">
+    <style>
+        .carousel {
+            width: 525px;
+            height: 210px;
+        }
+
+        .text_color{
+            color: #0f0f0f;
+        }
+
+        img {
+            width: 525px;
+            height: 210px;
+        }
+
+        body{
+            background-size: 100% ;
+            background-image: url("https://pic.netbian.com/uploads/allimg/210429/181449-1619691289e8b6.jpg");
+            background-repeat: no-repeat;
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+
+<!-- SITE TOP -->
+<div class="site-top">
+    <div class="site-header clearfix">
+        <div class="container">
+            <ul class="nav nav-tabs nav-justified">
+                <li role="presentation"><a href="/show_page">主页</a></li>
+                <li role="presentation"><a href="#">关于</a></li>
+            </ul>
+        </div>
+    </div> <!-- .site-header -->
+</div> <!-- .site-top -->
+
+
+
+
+<div class="main-posts">
+    <div  style="background-color:#122b40;border-bottom-width: 2px;border-bottom-color: #0BC20B" id="carousel-example-generic" class="carousel slide center-block" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li th:each="im:${shop_img.subList(1,shop_img.size())}" data-target="#carousel-example-generic" data-slide-to="1"></li>
+        </ol>
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <img th:src="${shop_img.get(0)}" alt="...">
+                <div  class="carousel-caption">
+
+                </div>
+            </div>
+            <div th:each="img:${shop_img}"  class="item">
+                <img th:src="${img}" alt="...">
+                <div  class="carousel-caption">
+                </div>
+            </div>
+            <p></p>
+        </div>
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+    <div class="container" style="margin-top: 150px">
+        <div class="row">
+            <div class="blog-masonry masonry-true">
+
+                    <div th:each="shop:${shops}" class="post-masonry col-md-4 col-sm-6">
+                        <div class="post-thumb" style="background-color: #9b9b9b">
+                            <img th:src="${jsonObject.parseObject(shop.getImg_address()).get('img_address').get(0)}" alt="">
+
+                            <div>
+                                <h4 class="text_color">名字<span style="margin-right: 10px"></span><a class="text_color" onclick="getDetails(this)" th:text="${shop.getStoreName()}"></a></h4>
+                            </div>
+
+                            <div>
+                                <h4 class="text_color">位置<span style="margin-right: 10px"></span><a class="text_color" href="#" th:text="${shop.getAddress()}"></a></h4>
+                            </div>
+                            <div>
+                                <h4 class="text_color">评分<span style="margin-right: 10px"></span><a class="text_color" href="#" th:text="${shop.getScore()}"></a></h4>
+                            </div>
+                        </div>
+                    </div> <!-- /.post-masonry -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+
+    $('.carousel').carousel({
+        interval: 2000
+    })
+
+    function getDetails(obj) {
+        let name = obj.innerHTML;
+        location.href="/details/?name="+name;
+    }
+
+</script>
+</html>
