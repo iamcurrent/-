@@ -31,7 +31,7 @@
 				background-image: url("https://pic.netbian.com/uploads/allimg/160903/104205-14728705251ec8.jpg");
 				background-repeat: no-repeat;
 				-moz-opacity: 0.5%;
-				background-size: 100% 100%;
+				background-size: cover;
 			}
 		</style>
 
@@ -71,7 +71,7 @@
 			<div class="header">
 				<div class="wrap">
 				<div class="logo">
-					<a href="/index"><img src="server_source/images/mylog.png" title="MEMORY" /></a>
+					<a href="/index"><img style="height: 50px;width: 100px" src="server_source/images/mylog.png" title="MEMORY" /></a>
 				</div>
 				<div class="nav-icon">
 					 <a href="#" class="right_bt" id="activator"><span> </span> </a>
@@ -139,12 +139,12 @@
 			        <!-- These are our grid blocks -->
 			        <li th:each="image:${images}">
 
-			        	<img class="img_address" th:src="${image.getImage_address()}" width="200" height="200">
+			        	<img class="img_address" th:src="${'data:image/jpg;base64,'+image.getImage_address()}" width="200" height="200">
 			        	<div class="post-info">
 			        		<div class="post-basic-info">
 				        		<h5><a href="#" th:text="${image.getDescription()}"></a></h5>
 				        		<span><a class="owner" href="#" th:text="${image.getOwner()}"><label > </label></a></span>
-								<p th:text="${image.getDate()}"></p>
+								<p th:text="${image.getUpload_time()}"></p>
 			        		</div>
 							<!--点赞模块-->
 							<button type="button" class="btn  btn-lg" onclick="goodFunc(this)">

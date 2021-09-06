@@ -15,7 +15,7 @@ import java.util.Map;
 @FeignClient(value = "images-server")
 public interface ImagesInterface {
     @PostMapping("/get_images_info")
-    @Cacheable(value = "images",key = "'image'+#owner")
+    //@Cacheable(value = "images",key = "'image'+#owner")
     public List<Images> getImagesByOwner(@RequestBody String owner);
 
     @PostMapping("/insert_images_info")

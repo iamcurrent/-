@@ -56,20 +56,18 @@
                 <div class="row">
                     <div class="blog-masonry masonry-true">
 
-
-
                         <div th:each="image:${pri_images}" class="post-masonry col-md-4 col-sm-6">
                             <div class="post-thumb">
-                                <img th:src="${image.getImage_address()}" alt="">
+                                <img th:src="${'data:image/jpg;base64,'+image.getImage_address()}" alt="">
                                 <div class="title-over">
                                     <h4 ><a href="#" th:text="${image.getDescription()}"></a></h4>
                                 </div>
                                 <div class="post-hover text-center">
-                                    <div class="inside">
+                                    <div class="inside">s
                                         <i class="fa fa-plus"></i>
-                                        <span class="date" th:text="${image.getDate()}"></span>
-                                        <h4><a href="#" th:text="${image.getOnline_flag()=='n'}?'无线下实物':'有线下实物'"></a></h4>
-                                        <p th:text="${image.getPrivate_flag()=='0'}?'公开':'私有'"></p>
+                                        <span class="date" th:text="${image.getUpload_time()}"></span>
+                                        <h4><a href="#" th:text="${image.isEntry()==false}?'无线下实物':'有线下实物'"></a></h4>
+                                        <p th:text="${image.isPrivate_flag()==false}?'公开':'私有'"></p>
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +174,7 @@
                     if (file) {
                         var reader = new FileReader();
                         reader.onload = function () {
-                            $("img").attr("src", this.result);
+                            $("#ig").attr("src", this.result);
                         }
 
                         reader.readAsDataURL(file);

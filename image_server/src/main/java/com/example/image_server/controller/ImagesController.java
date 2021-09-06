@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.FileImageOutputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -25,17 +26,36 @@ public class ImagesController {
     @ResponseBody
     public List<Images> getImagesByOwner(@RequestBody String owner){
         List<Images> imagesByOwner = imagesServer.getImagesByOwner(owner);
-        System.out.println(imagesByOwner.size());
+        dataHandler(imagesByOwner);
         return imagesByOwner;
+    }
+
+    private void dataHandler(List<Images> data){
+        for (int i = 0; i < data.size(); i++) {
+            Images images = data.get(i);
+            String image_address = images.getImage_address();
+            try{
+                FileImageInputStream fileImageInputStream = new FileImageInputStream(new File(image_address));
+                byte [] bytes = new byte[(int)fileImageInputStream.length()];
+                fileImageInputStream.read(bytes);
+                Base64.Encoder encoder = Base64.getEncoder();
+                String s = encoder.encodeToString(bytes);
+                images.setImage_address(s);
+                fileImageInputStream.close();
+            }catch (Exception e){
+
+            }
+        }
+        System.out.println(data.size());
     }
 
 
     @PostMapping("/getImgByFlag")
     @ResponseBody
     public List<Images> getImagesByFlag(@RequestBody boolean private_flag){
-        List<Images> imagesByOwner = imagesServer.getImagesByFlag(private_flag);
-        System.out.println(imagesByOwner.size());
-        return imagesByOwner;
+        List<Images> imagesByFlag = imagesServer.getImagesByFlag(private_flag);
+        dataHandler(imagesByFlag);
+        return imagesByFlag;
     }
 
 

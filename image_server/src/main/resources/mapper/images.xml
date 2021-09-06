@@ -22,7 +22,7 @@
         from
             images
         where
-            entry=#{entry}
+            private_flag=#{private_flag}
     </select>
 
 
