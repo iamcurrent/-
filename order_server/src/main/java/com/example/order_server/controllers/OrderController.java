@@ -49,8 +49,8 @@ public class OrderController {
         int money =  Integer.parseInt(map.get("money").toString());
         int savTime  =  Integer.parseInt(map.get("savTime").toString());
         String storeName  =  (String)map.get("storeName");
-        String thing = (String)map.get("thing");
-        Order order = new Order(i,accountName,tel,date,money,0,0,savTime,storeName,thing);
+        String ig_address = (String)map.get("ig_address");
+        Order order = new Order(i,accountName,tel,date,money,false,false,savTime,storeName,ig_address);
         int i1 = orderSqlServer.insertOrder(order);
 
         redisTemplate.opsForValue().increment("orderIndex");

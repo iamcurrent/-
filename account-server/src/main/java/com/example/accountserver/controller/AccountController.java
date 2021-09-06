@@ -45,8 +45,8 @@ public class AccountController {
     @PostMapping("/getAccountByName")
     @ResponseBody
     public Account getAccountByName(@RequestBody String name){
-
-        return accountServer.getAccountByName(name);
+        Account accountByName = accountServer.getAccountByName(name);
+        return accountByName;
     }
 
 

@@ -7,14 +7,14 @@
     <insert id="insertOrder" parameterType="com.example.commons.entities.Order" useGeneratedKeys="true">
         insert into
             order_t
-        values(#{id},#{account},#{tel},#{date},#{money},#{pay},#{submit},#{saveTime},#{storeName},#{thing})
+        values(#{id},#{account},#{tel},#{date},#{money},#{pay},#{submit},#{saveTime},#{storeName},#{ig_address})
     </insert>
 
     <update id="updatePayFlag" parameterType="java.lang.Integer">
         update
             order_t
         set
-            pay = 1
+            pay = true
         where
             id=#{id}
     </update>
@@ -23,7 +23,7 @@
         update
             order_t
         set
-            submit=1
+            submit=true
         where
             id=#{id}
     </update>
@@ -61,7 +61,7 @@
         where
             account=#{name}
         and
-            pay=0
+            pay=false
     </select>
 
 

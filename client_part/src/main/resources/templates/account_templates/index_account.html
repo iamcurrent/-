@@ -196,12 +196,12 @@
 						<div>
 							<table class="tables">
 								<tr><td>支付店铺</td><td>支付时间</td><td>支付金额</td><td>保存时限</td><td>物品信息</td></tr>
-								<tr th:each="o:${order}" th:if="${o.getPay()==1}">
+								<tr th:each="o:${order}" th:if="${o.getPay()==true}">
 									<td th:text="${o.getStoreName()}"></td>
 									<td th:text="${o.getDate()}"></td>
 									<td th:text="${o.getMoney()}"></td>
 									<td th:text="${o.getSaveTime()}"></td>
-									<td th:text="${o.getThing()}"></td>
+									<td th:text="${o.getIg_address()}"></td>
 								</tr>
 							</table>
 						</div>
@@ -220,13 +220,13 @@
 						<div>
 							<table class="tables">
 								<tr><td>下单店铺</td><td>创建时间</td><td>待付金额</td><td>保存时限</td><td>物品信息</td><td></td><td></td></tr>
-								<tr th:each="o:${order}" th:if="${o.getPay()==0}">
+								<tr th:each="o:${order}" th:if="${o.getPay()==false}">
 									<td class="order_id" th:text="${o.getId()}" style="display: none"></td>
 									<td class="shopName" th:text="${o.getStoreName()}"></td>
 									<td th:text="${o.getDate()}"></td>
 									<td class="payMoney" th:text="${o.getMoney()}"></td>
 									<td th:text="${o.getSaveTime()}"></td>
-									<td th:text="${o.getThing()}"></td>
+									<td th:text="${o.getIg_address()}"></td>
 									<td><a href="#" onclick="deleteOrder()">取消订单</a></td>
 									<td><button onclick="pay()">确认支付</button></td>
 								</tr>
