@@ -30,6 +30,7 @@ public class StorageController {
     @GetMapping("/getAllShop")
     @ResponseBody
     public List<Storage> getAllShop(){
+
         return storageServer.getAllStorage();
     }
     //获取一个店铺对应的所有信息

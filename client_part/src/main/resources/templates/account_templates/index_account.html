@@ -364,7 +364,7 @@
 					<div class="widget_contents">
 						<div>
 							<table class="tables">
-								<tr><td>卡号</td><td>银行</td><td>余额</td></tr>
+								<tr><td>卡号</td><td>银行</td><td>银行卡交易额</td></tr>
 								<tr >
 									<td th:if="${account!=null}" th:text="${account.getCardId()}"></td>
 									<td th:if="${account!=null}" th:text="${account.getBank()}"></td>
@@ -405,7 +405,7 @@
 					<div th:text="${left}" class="big_stats visitor_stats">
 
 					</div>
-					<h5 class="stats_info">账户余额</h5>
+					<h5 class="stats_info">账户总交易额</h5>
 				</div>
 				<div class="g_3 quick_stats">
 					<div th:text="${order.size()}" class="big_stats tickets_stats">
