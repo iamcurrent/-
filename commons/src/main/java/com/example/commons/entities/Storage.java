@@ -12,14 +12,14 @@ import java.util.List;
 @NoArgsConstructor
 public class Storage {
     String storeName ;//店铺名字
+    String owner;
     int visitNum ;//店铺的访问量
     int leftContain ;//可用的存储容量
     String tel ;//店铺的联系电话
     String address;// 店铺对应的地址
     int score;// 店铺对应的平均评分
-    //String visitMonth;//(一年) 店铺的月访问频次 //json
-    //String img_address ;//店铺对应的图片地址 //json
     String description;//店铺的描述
+    boolean auth;//申请的店铺是否已经授权
 
     public String getStoreName() {
         return storeName;
@@ -69,20 +69,27 @@ public class Storage {
         this.score = score;
     }
 
-    public String getVisitMonth() {
-        return visitMonth;
-    }
-
-    public void setVisitMonth(String visitMonth) {
-        this.visitMonth = visitMonth;
-    }
-
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public boolean isAuth() {
+        return auth;
+    }
+
+    public void setAuth(boolean auth) {
+        this.auth = auth;
     }
 }

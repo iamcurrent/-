@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=2hhxtGpN7Q4DWk1sWi5Ys6jSCc98ZeI1"></script>
     <link rel="stylesheet" href="moban_source1/css/normalize.css">
     <link rel="stylesheet" href="moban_source1/css/font-awesome.css">
     <link rel="stylesheet" href="moban_source1/css/bootstrap.min.css">
@@ -26,6 +27,11 @@
             height: 210px;
         }
 
+        #ig{
+            width:400px;
+            height:200px;
+        }
+
         body{
             background-size: 100% ;
             background-image: url("https://pic.netbian.com/uploads/allimg/210429/181449-1619691289e8b6.jpg");
@@ -37,7 +43,76 @@
 </head>
 
 <body>
+<!-- 模态框（Modal） -->
+<div style="z-index: 99999999" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div style="padding: 100px 100px 10px;">
+                <form class="bs-example bs-example-form" role="form">
+                    <div class="input-group">
+                        <!--<span class="input-group-addon">图片地址</span>
+                        <input type="text" class="form-control img_address" placeholder="https://XXXXXX">-->
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input id="photoCover" class="form-control" readonly type="text">
+                                <label class="input-group-btn">
+                                    <input id="file" type="file" name="file" style="left: -9999px; position: absolute;">
+                                    <span class="btn btn-default">Browse</span>
+                                </label>
+                            </div>
+                        </div>
 
+                        <div class="col-md-9">
+                            <img id="ig" src="">
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="input-group">
+                        <span class="input-group-addon">图片描述</span>
+                        <input type="text" class="form-control img_description" style="height: 50px">
+                    </div>
+                    <br style="height: 5px">
+                    <div class="input-group">
+                        <span class="input-group-addon">商店创建人</span>
+                        <input disabled="true" type="text" class="form-control owner" th:value="${#request.getSession().getAttribute('token')}">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">商店名称</span>
+                        <input  type="text" class="form-control storeName">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">商店描述</span>
+                        <input  type="text" class="form-control storeDesc">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">商店的容量</span>
+                        <input type="text" class="form-control leftContain">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">联系电话</span>
+                        <input type="text" class="form-control tel">
+                    </div>
+                    <br>
+                    <div class="input-group mapContainer">
+                        <span class="input-group-addon">地理位置</span>
+                        <input type="button" onclick="getAddress()" class="form-control geo">
+                    </div>
+                    <br>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" onclick="saveUser2()" class="btn btn-primary">上传</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 
 <!-- SITE TOP -->
 <div class="site-top">
@@ -46,6 +121,7 @@
             <ul class="nav nav-tabs nav-justified">
                 <li role="presentation"><a href="/show_page">主页</a></li>
                 <li role="presentation"><a href="#">关于</a></li>
+                <li role="presentation"><a href="#" class="btn btn-lg" data-toggle="modal" data-target="#myModal">注册商店</a></li>
             </ul>
         </div>
     </div> <!-- .site-header -->
@@ -59,18 +135,18 @@
         <!-- Indicators -->
         <ol class="carousel-indicators">
             <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-            <li th:each="im:${shop_img.subList(1,shop_img.size())}" data-target="#carousel-example-generic" data-slide-to="1"></li>
+            <li th:each="im:${shop_img.subList(0,shop_img.size())}" data-target="#carousel-example-generic" data-slide-to="1"></li>
         </ol>
-        <!-- Wrapper for slides -->
+        <!-- Wrapper for slides 轮播图 -->
         <div class="carousel-inner" role="listbox">
             <div class="item active">
-                <img th:src="${shop_img.get(0)}" alt="...">
+                <img th:src="${'data:image/jpg;base64,'+shop_img.get(0)}" alt="...">
                 <div  class="carousel-caption">
 
                 </div>
             </div>
             <div th:each="img:${shop_img}"  class="item">
-                <img th:src="${img}" alt="...">
+                <img th:src="${'data:image/jpg;base64,'+img}" alt="...">
                 <div  class="carousel-caption">
                 </div>
             </div>
@@ -93,17 +169,17 @@
 
                     <div th:each="shop:${shops}" class="post-masonry col-md-4 col-sm-6">
                         <div class="post-thumb" style="background-color: #9b9b9b">
-                            <img th:src="${jsonObject.parseObject(shop.getImg_address()).get('img_address').get(0)}" alt="">
+                            <img th:src="${'data:image/jpg;base64,'+shop.getStoreImages().get(0).getImgAddress()}" alt="">
 
                             <div>
-                                <h4 class="text_color">名字<span style="margin-right: 10px"></span><a class="text_color" onclick="getDetails(this)" th:text="${shop.getStoreName()}"></a></h4>
+                                <h4 class="text_color">名字<span style="margin-right: 10px"></span><a class="text_color" onclick="getDetails(this)" th:text="${shop.getStorage().getStoreName()}"></a></h4>
                             </div>
 
                             <div>
-                                <h4 class="text_color">位置<span style="margin-right: 10px"></span><a class="text_color" href="#" th:text="${shop.getAddress()}"></a></h4>
+                                <h4 class="text_color">位置<span style="margin-right: 10px"></span><a class="text_color" href="#" th:text="${shop.getStorage().getAddress()}"></a></h4>
                             </div>
                             <div>
-                                <h4 class="text_color">评分<span style="margin-right: 10px"></span><a class="text_color" href="#" th:text="${shop.getScore()}"></a></h4>
+                                <h4 class="text_color">评分<span style="margin-right: 10px"></span><a class="text_color" href="#" th:text="${shop.getStorage().getScore()}"></a></h4>
                             </div>
                         </div>
                     </div> <!-- /.post-masonry -->
@@ -111,6 +187,10 @@
             </div>
         </div>
     </div>
+
+
+
+
 </div>
 
 </body>
@@ -124,6 +204,90 @@
         let name = obj.innerHTML;
         location.href="/details/?name="+name;
     }
+
+    function getAddress(){
+        let map = new BMap.Map("mapContainer");
+        var geolocation = new BMap.Geolocation();
+        geolocation.getCurrentPosition(function(r){
+            if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                getMapInfo(r.point);
+            }
+            else {
+                alert('failed'+this.getStatus());
+            }
+        });
+
+    }
+    function getMapInfo(point){
+        console.log(point);
+        let gc = new BMap.Geocoder();
+        let address;
+        gc.getLocation(point, function(rs){
+            let addComp = rs.addressComponents;
+            address =  addComp.province +  addComp.city + addComp.district + addComp.street + addComp.streetNumber;//获取地址
+            let res = address.toString();
+            console.log(res);
+            $(".geo").val(res);
+        });
+
+    }
+
+    $(function () {
+        $("#file").change(function (e) {
+            var file = e.target.files[0] || e.dataTransfer.files[0];
+            $('#photoCover').val(document.getElementById("file").files[0].name);
+
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    $("#ig").attr("src", this.result);
+                }
+
+                reader.readAsDataURL(file);
+            }
+        });
+    })
+
+    function saveUser2(){
+        let owner = $(".owner").val();
+        let storeName = $(".storeName").val();
+        let storeDesc = $(".storeDesc").val();
+        let imgDesc = $(".img_description").val();
+        let leftContain = $(".leftContain").val();
+        let geo = $(".geo").val();
+        let tel = $(".tel").val();
+        let file = document.getElementById("file").files[0];
+        let formData = new FormData();
+        formData.append("owner",owner);
+        formData.append("storeName",storeName);
+        formData.append("leftContain",leftContain);
+        formData.append("imgDesc",imgDesc);
+        formData.append("storeDesc",storeDesc);
+        formData.append("geo",geo);
+        formData.append("tel",tel);
+        formData.append("file",file);
+        $.ajax({
+            url: "register",
+            type: "post",
+            data: formData,
+            contentType: false,
+            processData: false,
+            mimeType: "multipart/form-data",
+            success: function (data) {
+                if(data==="ok"){
+
+                    $(".s_msg").text("上传成功");
+                }else {
+
+                    $(".s_msg").text("上传失败");
+                }
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
 
 </script>
 </html>

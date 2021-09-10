@@ -52,11 +52,12 @@
         <div  id="main" role="main" style="background-color: #0BC20B">
             <ul id="tiles" style="float: left;width: 33%">
                 <!-- These are our grid blocks -->
-                <li th:each="image:${shop_images}">
-
-                    <img th:src="${image}" style="margin-top: 10px">
-
+                <li th:each="image:${images}">
+                    <img th:src="${'data:image/jpg;base64,'+image.getImgAddress()}" style="margin-top: 10px">
+                    <p th:text="${image.getImgDisc()}"></p>
+                    <p th:text="${image.getUploadTime()}"></p>
                 </li>
+
                 <!-- End of grid blocks -->
             </ul>
             <div style="float: left;width: 33%">
@@ -65,48 +66,48 @@
                              <p style="color: red">店铺信息</p>
                              <div class="input-group">
                                  <h4><span >店铺名称:</span></h4>
-                                 <span class="shopName" th:text="${shop.getStoreName()}"></span>
+                                 <span class="shopName" th:text="${storage.getStoreName()}"></span>
                              </div>
 
                                  <div class="input-group">
                                      <h4><span >店铺描述:</span></h4>
-                                     <p th:text="${shop.getDescription()}"></p>
+                                     <p th:text="${storage.getDescription()}"></p>
                                  </div>
 
 
                                  <div class="input-group">
                                      <h4><span >店铺评分:</span></h4>
-                                     <p th:text="${shop.getScore()}"></p>
+                                     <p th:text="${storage.getScore()}"></p>
                                  </div>
 
 
                                  <div class="input-group">
                                      <h4><span >店铺地址</span></h4>
-                                     <p th:text="${shop.getAddress()}"></p>
+                                     <p th:text="${storage.getAddress()}"></p>
                                  </div>
 
 
                                  <div class="input-group">
                                      <h4><span >店铺联系方式:</span></h4>
-                                     <p th:text="${shop.getTel()}"></p>
+                                     <p th:text="${storage.getTel()}"></p>
                                  </div>
 
 
                                  <div class="input-group">
                                      <h4><span >店铺访问次数：</span></h4>
-                                     <p th:text="${shop.getVisitNum()}"></p>
+                                     <p th:text="${storage.getVisitNum()}"></p>
                                  </div>
 
 
                                  <div class="input-group">
                                      <h4><span >店铺月访问量：</span></h4>
                                      <div id="monthVisit" style="width: 400px;height:200px;"></div>
-                                     <p class="visitData" style="display: none" th:text="${visitMonth}"></p>
+                                     <p class="visitData" style="display: none" th:text="${monthVisit}"></p>
                                  </div>
 
                                  <div class="input-group">
                                      <h4><span >店铺剩余存储量：</span></h4>
-                                     <p th:text="${shop.getLeftContain()}"></p>
+                                     <p th:text="${storage.getLeftContain()}"></p>
                                  </div>
 
 
@@ -185,13 +186,12 @@
 </body>
     <script>
 
-        let visitData = $(".visitData").text();
-        var split = visitData.split(',');
-        var arr = [];
-        split[0] = split[0].substring(1,split[0].length);
-        split[11] = split[11].substring(0,split[11].length-1);
-        for(var i =0;i<split.length;i++){
-            arr.push(parseInt(split[i]));
+        let visitData = $(".visitData").text().toString();
+        let ars =  visitData.split(",");
+
+        let arr = [];
+        for(let i =0;i<ars.length;i++){
+            arr.push(parseInt(ars[i]));
         }
 
         var option = {

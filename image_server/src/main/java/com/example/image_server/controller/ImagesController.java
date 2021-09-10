@@ -83,7 +83,7 @@ public class ImagesController {
             stringBuilder.append("-"+time[0]);
             stringBuilder.append("-"+time[1]);
             stringBuilder.append("-"+time[2]);
-            fileName = "./images/"+img_owner+"/"+stringBuilder.toString()+".jpg";
+            fileName = "./images/"+img_owner+"/"+split[0]+stringBuilder.toString()+".jpg";
             saveImg(decode,fileName);
         }
 

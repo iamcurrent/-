@@ -3,8 +3,44 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.storage_server.dao.StorageDao">
+
     <select id="getAllStorage" resultType="com.example.commons.entities.Storage">
-        select * from storage;
+        select * from storage group by storeName;
+    </select>
+
+    <select id="getImagesByStoreName" parameterType="java.lang.String" resultType="com.example.commons.entities.StoreImages">
+        select
+         *
+        from
+         store_images
+        where
+         storeName=#{storeName}
+    </select>
+
+    <select id="getAllImages" resultType="com.example.commons.entities.StoreImages">
+        select
+            *
+        from
+         store_images
+        where
+         storeName
+        in
+         (select storeName from storage group by storeName)
+
+    </select>
+
+    <select id="getMonthVisitByStoreName" parameterType="java.lang.String" resultType="com.example.commons.entities.MonthVisit">
+        select *
+        from month_visit
+        where storeName=#{storeName}
+    </select>
+
+    <select id="getAllMonthVisit" resultType="com.example.commons.entities.MonthVisit">
+        select *
+        from month_visit
+        where storeName
+        in (select storeName from storage group by storeName)
+
     </select>
 
     <select id="getStorageByName" parameterType="java.lang.String" resultType="com.example.commons.entities.Storage">
@@ -16,11 +52,26 @@
     </update>
 
     <update id="updateVisitNum" parameterType="java.util.Map" useGeneratedKeys="true">
-        update storage set visitNum=#{num} where storeName=#{name}
+        update storage set visitNum=visitNum+1 where storeName=#{name}
     </update>
 
     <update id="updateVisitMonth" parameterType="java.util.Map" useGeneratedKeys="true">
-        update storage set visitMonth=#{s} where storeName=#{name}
+        update month_visit set ${index}=${index}+1 where storeName=#{name}
     </update>
+
+    <insert id="registerStore" parameterType="java.util.Map">
+        insert into storage
+        values(#{storeName},#{owner},#{rtime},#{visitNum},#{leftContain},#{tel},#{address},#{score},#{description},#{auth})
+    </insert>
+
+    <insert id="insertMonthVisit" parameterType="java.lang.String">
+        insert into month_visit
+        values(#{storeName},0,0,0,0,0,0,0,0,0,0,0,0)
+    </insert>
+
+    <insert id="insertImages" parameterType="java.util.Map">
+        insert into store_images
+        values(#{storeName},#{imgAddress},#{uploadTime},#{imgDisc})
+    </insert>
 
 </mapper>
