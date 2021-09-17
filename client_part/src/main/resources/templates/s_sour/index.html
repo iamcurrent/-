@@ -335,7 +335,7 @@
 				<div class="userinfo">
 					<div class="user">
 						<ul>
-							<li><a href="/login_page"><img style="width: 30px;height: 30px" src="https://pic.netbian.com/uploads/allimg/210419/170706-16188232261e9f.jpg" title="user-name" /><span style="font-size: 10px" th:text="${((#request.getSession().getAttribute('token'))==null||(#request.getSession().getAttribute('token'))=='null')?'去登陆':#request.getSession().getAttribute('token')}"></span></a></li>
+							<li><a href="#"><img style="width: 30px;height: 30px" src="https://pic.netbian.com/uploads/allimg/210419/170706-16188232261e9f.jpg" title="user-name" /><span class="account" style="font-size: 10px" th:text="${((#request.getSession().getAttribute('token'))==null||(#request.getSession().getAttribute('token'))=='null')?'去登陆':#request.getSession().getAttribute('token')}"></span></a></li>
 							<!--在这里加入下拉菜单-->
 							<li>
 								<div  class="dropdown">
@@ -345,12 +345,12 @@
 									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1" style="text-align: center">
 
                                         <!--<li th:style="${#request.getSession().getAttribute('token')!=null&&#request.getSession().getAttribute('token')!='null'}?'display:none':''">测试</li>-->
-										<li th:style="${#request.getSession().getAttribute('token')!=null&&#request.getSession().getAttribute('token')!='null'}?'display:block':'display:none'"><a href="/show_page">我的主页</a></li></br>
-										<li th:style="${#request.getSession().getAttribute('token')!=null&&#request.getSession().getAttribute('token')!='null'}?'display:block':'display:none'"><a href="/accountPage">我的账户</a></li></br>
-										<li th:style="${#request.getSession().getAttribute('token')!=null&&#request.getSession().getAttribute('token')!='null'}?'display:block':'display:none'"><a href="#">修改信息</a></li></br>
-										<li th:style="${#request.getSession().getAttribute('token')==null||#request.getSession().getAttribute('token')=='null'}?'display:block':'display:none'"><a href="/login_page">登录</a></li></br>
+										<li th:style="${#request.getSession().getAttribute('token')!=null&&#request.getSession().getAttribute('token')!='null'}?'display:inline-block':'display:none'"><a href="/show_page">我的主页</a></li></br>
+										<li th:style="${#request.getSession().getAttribute('token')!=null&&#request.getSession().getAttribute('token')!='null'}?'display:inline-block':'display:none'"><a href="/accountPage">我的账户</a></li></br>
+										<li th:style="${#request.getSession().getAttribute('token')!=null&&#request.getSession().getAttribute('token')!='null'}?'display:inline-block':'display:none'"><a href="#">修改信息</a></li></br>
+										<li th:style="${#request.getSession().getAttribute('token')==null||#request.getSession().getAttribute('token')=='null'}?'display:inline-block':'display:none'"><a href="/login_page">登录</a></li></br>
 										<!--<li role="separator" class="divider"></li>-->
-										<li th:style="${#request.getSession().getAttribute('token')!=null&&#request.getSession().getAttribute('token')!='null'}?'display:block':'display:none'"><a href="/login_out">注销</a></li>
+										<li th:style="${#request.getSession().getAttribute('token')!=null&&#request.getSession().getAttribute('token')!='null'}?'display:inline-block':'display:none'"><a href="/login_out">注销</a></li>
 									</ul>
 								</div>
 							</li>
@@ -367,23 +367,24 @@
 		<div class="content">
 			<div class="wrap">
 			 <div id="main" role="main">
-			      <ul id="tiles">
+			      <ul id="tiles">s
 			        <!-- These are our grid blocks -->
 			        <li th:each="image:${images}">
-
-			        	<img class="img_address" th:src="${'data:image/jpg;base64,'+image.getImage_address()}" width="200" height="200">
-			        	<div class="post-info">
+						<p class="img_file_address" th:text="${image.getImageObj().getImage_address()}" style="display: none"></p>
+			        	<img class="img_address" th:src="${'data:image/jpg;base64,'+image.getImage()}" width="200" height="200">
+			        	<div class="post-info origin_info">
 			        		<div class="post-basic-info">
-				        		<h5><a href="#" th:text="${image.getDescription()}"></a></h5>
-				        		<span><a class="owner" href="#" th:text="${image.getOwner()}"><label > </label></a></span>
-								<p th:text="${image.getUpload_time()}"></p>
+				        		<h5><a href="#" th:text="${image.getImageObj().getDescription()}"></a></h5>
+				        		<span><a class="owner" href="#" th:text="${image.getImageObj().getOwner()}"><label > </label></a></span>
+								<p th:text="${image.getImageObj().getUpload_time()}"></p>
 			        		</div>
 							<!--点赞模块-->
-							<button type="button" class="btn  btn-lg" onclick="goodFunc(this)">
-								<span class="ic glyphicon glyphicon-heart-empty"  aria-hidden="true">0</span>
-							</button>
+							<!--<button type="button" class="btn  btn-lg">
+								<span onclick="goodFunc(this)" class="ic glyphicon glyphicon-thumbs-up"  aria-hidden="true">0</span>
+							</button>-->
+							<span onclick="goodFunc(this)" class="ic glyphicon glyphicon-thumbs-up"  aria-hidden="true">0</span>
+							<span onclick="c_click(this)" data-target="#myModal" data-toggle="modal" style="padding-left:20px;" class="glyphicon glyphicon-comment">评论(0)</span>
 						</div>
-
 			        </li>
 
 			        <!-- End of grid blocks -->
@@ -392,29 +393,76 @@
 			</div>
 		</div>
 
+	<!-- 模态框（Modal） -->
+	<div style="z-index: 99999999" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div style="padding: 100px 100px 10px;background-color: springgreen">
+					<p>jhdhhdsudhhdusahdusd</p>
+					<p>dasdasdsadsadasdsadsd</p>
+					<textarea cols="40" rows="5"></textarea>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" onclick="commit()" class="btn btn-primary">评论</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>
+
+
 
 		<!---//End-content---->
 		<!----wookmark-scripts---->
 		  <script src="server_source/js/jquery.imagesloaded.js"></script>
 		  <script src="server_source/js/jquery.wookmark.js"></script>
 		  <script type="text/javascript">
+			  	let publisher = "";
+			  	let click_image = "";
+			  	function c_click(obj) {
+			  		let ad = obj.parentNode.parentNode;
+					let igE = ad.getElementsByClassName("img_file_address"); //被评论的图片
+					let account = $(".account").text();//当前的用户
+					publisher = account;
+					click_image = $(igE).text();
+				}
+
+				function commit() {
+					let content = $("textarea").val();//对应图片的评价内容
+					let formData = new FormData();
+					formData.append("publisher",publisher);
+					formData.append("click_image",click_image);
+					formData.append("content",content);
+
+				}
+
 
 			  function goodFunc(obj) {
-						 let span = obj.getElementsByClassName("ic");
-				  			var classList = $(span).attr("class");
-							var split = classList.split(' ');
+						 	//let span = obj.getElementsByClassName("ic");
+						 	let c = $(obj).attr("color");
+				  			let classList = $(obj).attr("class");
+							let split = classList.split(' ');
+
+							if(split[split.length-1]==="glyphicon-thumbs-up"){
+								$(obj).addClass("doTask");
+								$(obj).css("color",'red');
+								let nums = $(obj).text();
+								$(obj).text(parseInt(nums)+1);
+							}else{
+								$(obj).removeClass("doTask");
+								$(obj).css("color",'black');
+								let nums = $(obj).text();
+								$(obj).text(parseInt(nums)-1);
+							}
+
 							//点赞
-							if(split[split.length-1]==="glyphicon-heart-empty"){
+							/*if(split[split.length-1]==="glyphicon-heart-empty"){
 								$(span).removeClass("glyphicon-heart-empty");
 								$(span).addClass("glyphicon-heart");
 								$(span).css("color",'red');
 								let jQuery = $(span).text();
 								$(span).text(parseInt(jQuery)+1);
-
-								var parentElem = obj.parent("li");
-
-								alert(typeof parentElem);
-
 
 							}else {
 								//取赞
@@ -423,7 +471,7 @@
 								$(span).css("color",'black');
 								let jQuery = $(span).text();
 								$(span).text(parseInt(jQuery)-1);
-							}
+							}*/
 			  }
 
 

@@ -275,11 +275,10 @@
             mimeType: "multipart/form-data",
             success: function (data) {
                 if(data==="ok"){
+                    alert("注册成功");
 
-                    $(".s_msg").text("上传成功");
                 }else {
-
-                    $(".s_msg").text("上传失败");
+                    alert("注册失败");
                 }
             },
             error: function (data) {

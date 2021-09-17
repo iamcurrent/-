@@ -1,6 +1,7 @@
 package com.example.image_server.controller;
 
 
+import com.example.commons.entities.ImageProxy;
 import com.example.commons.entities.Images;
 import com.example.image_server.services.ImagesServer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,13 @@ import javax.imageio.stream.FileImageInputStream;
 import javax.imageio.stream.FileImageOutputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Controller
 @SuppressWarnings("all")
@@ -49,13 +53,41 @@ public class ImagesController {
         System.out.println(data.size());
     }
 
+    private String getBase64(String fileName){
+        try {
+            FileInputStream inputStream = new FileInputStream(new File(fileName));
+            FileChannel channel = inputStream.getChannel();
+            ByteBuffer buffer = ByteBuffer.allocate((int) channel.size());
+            byte [] bytes = new byte[(int)channel.size()];
+            channel.read(buffer);
+            buffer.flip();
+            buffer.get(bytes);
+            channel.close();
+            inputStream.close();
+            Base64.Encoder encoder = Base64.getEncoder();
+            String s = encoder.encodeToString(bytes);
+            return s;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
+
 
     @PostMapping("/getImgByFlag")
     @ResponseBody
-    public List<Images> getImagesByFlag(@RequestBody boolean private_flag){
+    public List<ImageProxy> getImagesByFlag(@RequestBody boolean private_flag){
         List<Images> imagesByFlag = imagesServer.getImagesByFlag(private_flag);
+        List<ImageProxy> list = new ArrayList<>();
+        imagesByFlag.stream().forEach(o->{
+            list.add(new ImageProxy(o,getBase64(o.getImage_address())));
+        });
+       /* List<String> collect = imagesByFlag.stream().map(o -> o.getImage_address()).collect(Collectors.toList());
         dataHandler(imagesByFlag);
-        return imagesByFlag;
+        ImageProxy imageProxy = new ImageProxy(imagesByFlag,collect);*/
+        return list;
     }
 
 

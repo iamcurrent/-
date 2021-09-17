@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.client_part.Interface.ImagesInterface;
 import com.example.client_part.Interface.LoginInterface;
+import com.example.commons.entities.ImageProxy;
 import com.example.commons.entities.Images;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @Controller
@@ -44,6 +46,7 @@ public class RegisterAndLogin {
         if(s.equals("ok")){
             Cookie cookie = new Cookie("token",(String) map.get("username"));
             cookie.setMaxAge(60);
+
             response.addCookie(cookie);
         }
         return s;
@@ -123,10 +126,10 @@ public class RegisterAndLogin {
 
     @GetMapping("/index")
     public String toIndex(HttpServletRequest request, Map map){
-        List<Images> admin = imagesInterface.getImagesByFlag(false);
-        System.out.println(admin.size());
+        List<ImageProxy> res  = imagesInterface.getImagesByFlag(false);
+        System.out.println(res.size());
         map.clear();
-        map.put("images",admin);
+        map.put("images",res);
         Object token1 = request.getSession().getAttribute("token");//这里验证是不是已经登录
         if(token1!=null&&!"null".equals(token1)){
             return "s_sour/index";
@@ -172,12 +175,12 @@ public class RegisterAndLogin {
         }
         Object token = request.getSession().getAttribute("token");
 
-        if(token!=null&&token!="null"){
-            request.getSession().setAttribute("token","null");
+        if(token!=null&&!token.equals("null")){
+            request.getSession().removeAttribute("token");
             request.getSession().setMaxInactiveInterval(0);
         }
 
-        return "redirect:/index";
+        return "redirect:/login_page";
     }
     //将对应的cookie设置为失效
 
